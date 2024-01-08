@@ -69,6 +69,9 @@ function handleTransform(operation, readable, writable) {
     readable
         .pipeThrough(transformStream)
         .pipeTo(writable);
+  } else if (operation === 'decode') {
+    readable
+        .pipeTo(writable);
   }
 }
 
