@@ -93,7 +93,15 @@ function gotRemoteStream(stream) {
 function start() {
   console.log('Requesting local stream');
   startButton.disabled = true;
-  const options = {audio: false, video: true};
+  const options = {
+    audio: false,
+    // video: true
+    video: {
+      frameRate: {
+        exact: 30
+      }
+    }
+  };
   navigator.mediaDevices
       .getUserMedia(options)
       .then(gotStream)
@@ -180,8 +188,8 @@ function call() {
   hangupButton.disabled = false;
   console.log('Starting call');
 
-  startToEnd = new VideoPipe(localStream, true, true, e => {
-    setupReceiverTransform(e.receiver);
+  startToEnd = new VideoPipe(localStream, true, false, e => {
+    // setupReceiverTransform(e.receiver);
     maybeSetCodecPreferences(e);
     gotRemoteStream(e.streams[0]);
   });

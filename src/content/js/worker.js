@@ -18,6 +18,7 @@ let currentKeyIdentifier = 0;
 
 let storedFrames = [];
 let frameIndex = 0;
+let startTimeframe = 0;
 
 let oldFrames = [];
 let downloaded = false;
@@ -51,6 +52,13 @@ function encodeFunction(encodedFrame, controller) {
     const newData = frameObject.frame;
 
     encodedFrame.data = newData;
+
+    // Estimate current frame rate into encoder
+    if (startTimeframe === 0) {
+      startTimeframe = encodedFrame.timestamp;
+    }
+    const currentFrameRate = (frameIndex / ((encodedFrame.timestamp - startTimeframe)/100000)).toFixed(2);
+    console.log('Frame rate: ', currentFrameRate);
 
     frameIndex += 1;
   }
